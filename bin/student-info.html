@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information | Student Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 p-0 sidebar">
+            <div class="p-4">
+                <h3 class="mb-4"><i class="bi bi-mortarboard"></i> Academe</h3>
+                <p class="small text-secondary">Student Registry System</p>
+            </div>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="/">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a class="nav-link" href="/student-list">
+                    <i class="bi bi-people"></i> Student List
+                </a>
+                <a class="nav-link active" href="/student-info">
+                    <i class="bi bi-person-badge"></i> Student Info
+                </a>
+            </nav>
+            <div class="position-absolute bottom-0 p-4">
+                <small class="text-secondary">v3.0 | Forms 1-3</small>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-md-10 main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-person-badge"></i> Student Information</h2>
+                <div>
+                    <button class="btn btn-outline-secondary me-2" onclick="window.location.href='/student-list'">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </button>
+                    <button class="btn btn-primary" onclick="printStudentInfo()">
+                        <i class="bi bi-printer"></i> Print
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Search Student - Search by Name or Class -->
+            <div class="search-card mb-4">
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-md-10">
+                            <input type="text" class="form-control form-control-lg" id="studentSearch" 
+                                   placeholder="Search by Student Name or Class...">
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary btn-lg w-100" onclick="searchStudent()">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Student Information Card -->
+            <div id="studentInfoCard" style="display: none;">
+                <div class="student-profile-card">
+                    <div class="profile-header" id="profileHeader">
+                        <div class="row align-items-center">
+                            <div class="col-md-2 text-center">
+                                <div class="student-avatar" id="studentAvatar">
+                                    <i class="bi bi-person-circle" style="font-size: 5rem;"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <h1 id="studentNameDisplay">-</h1>
+                                <p class="mb-0">
+                                    <span class="class-badge-lg" id="classDisplay">-</span>
+                                    <span class="house-badge-lg" id="houseDisplay">-</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-body">
+                        <h5 class="section-title"><i class="bi bi-person-vcard"></i> Personal Information</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <table class="info-table">
+                                    <tr><th>Student ID:</th><td id="info-id">-</td></tr>
+                                    <tr><th>Full Name:</th><td id="info-name">-</td></tr>
+                                    <tr><th>Class:</th><td id="info-class">-</td></tr>
+                                    <tr><th>Gender:</th><td id="info-gender">-</td></tr>
+                                    <tr><th>House:</th><td id="info-house">-</td></tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="info-table">
+                                    <tr><th>Primary Contact:</th><td id="info-primary">-</td></tr>
+                                    <tr><th>Secondary Contact:</th><td id="info-secondary">-</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <h5 class="section-title"><i class="bi bi-telephone"></i> Contact Information</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <div class="contact-card">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <small class="text-muted">Primary Contact</small>
+                                            <h6 id="contact-primary"><i class="bi bi-telephone"></i> -</h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted">Secondary Contact</small>
+                                            <h6 id="contact-secondary"><i class="bi bi-telephone"></i> -</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons text-center">
+                            <button class="btn btn-warning" onclick="editStudent()">
+                                <i class="bi bi-pencil"></i> Edit Student
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteStudent()">
+                                <i class="bi bi-trash"></i> Delete Student
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- No Student Selected -->
+            <div id="noStudentSelected" class="text-center p-5">
+                <i class="bi bi-search" style="font-size: 4rem; color: #ccc;"></i>
+                <h4 class="mt-3">Search for a Student</h4>
+                <p class="text-muted">Enter a Student Name or Class above to view full information</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Student Modal -->
+<div class="modal fade" id="editStudentModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title"><i class="bi bi-pencil"></i> Edit Student Information</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Student Name *</label>
+                        <input type="text" class="form-control" id="e-name">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Class *</label>
+                        <select class="form-select" id="e-class">
+                            <option value="Form 1">Form 1</option>
+                            <option value="Form 2">Form 2</option>
+                            <option value="Form 3">Form 3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Gender *</label>
+                        <select class="form-select" id="e-gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">House *</label>
+                        <select class="form-select" id="e-house">
+                            <option value="Acacia">Acacia</option>
+                            <option value="Baobab">Baobab</option>
+                            <option value="Palm">Palm</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Primary Contact *</label>
+                        <input type="text" class="form-control" id="e-primary" placeholder="Phone number with country code">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Secondary Contact</label>
+                        <input type="text" class="form-control" id="e-secondary" placeholder="Optional alternative number">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="updateStudent()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let currentStudent = null;
+    let editModal = null;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        editModal = new bootstrap.Modal(document.getElementById('editStudentModal'));
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const studentId = urlParams.get('id');
+        if (studentId) {
+            document.getElementById('studentSearch').value = studentId;
+            searchStudent();
+        }
+        
+        document.getElementById('studentSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchStudent();
+        });
+    });
+    
+    async function searchStudent() {
+        const searchTerm = document.getElementById('studentSearch').value.trim();
+        if (!searchTerm) {
+            alert('Please enter a Student Name or Class');
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/students/search?q=${encodeURIComponent(searchTerm)}`);
+            const result = await response.json();
+            
+            if (result.success && result.data.length > 0) {
+                currentStudent = result.data[0];
+                displayStudentInfo(currentStudent);
+                document.getElementById('studentInfoCard').style.display = 'block';
+                document.getElementById('noStudentSelected').style.display = 'none';
+            } else {
+                alert('Student not found!');
+                document.getElementById('studentInfoCard').style.display = 'none';
+                document.getElementById('noStudentSelected').style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error searching for student');
+        }
+    }
+    
+    function displayStudentInfo(student) {
+        document.getElementById('studentNameDisplay').textContent = student.student_name;
+        document.getElementById('classDisplay').textContent = student.class;
+        document.getElementById('houseDisplay').textContent = student.house;
+        
+        document.getElementById('info-id').textContent = student.id;
+        document.getElementById('info-name').textContent = student.student_name;
+        document.getElementById('info-class').textContent = student.class;
+        document.getElementById('info-gender').textContent = student.gender;
+        document.getElementById('info-house').textContent = student.house;
+        document.getElementById('info-primary').textContent = student.primary_contact;
+        document.getElementById('info-secondary').textContent = student.secondary_contact || 'Not provided';
+        
+        document.getElementById('contact-primary').innerHTML = `<i class="bi bi-telephone"></i> ${student.primary_contact}`;
+        document.getElementById('contact-secondary').innerHTML = student.secondary_contact ? `<i class="bi bi-telephone"></i> ${student.secondary_contact}` : '<span class="text-muted">Not provided</span>';
+        
+        const avatarDiv = document.getElementById('studentAvatar');
+        const houseColors = { 'Acacia': '#ffffff', 'Baobab': '#dc3545', 'Palm': '#ffc107' };
+        const houseBgColors = { 'Acacia': '#f0f0f0', 'Baobab': '#dc3545', 'Palm': '#ffc107' };
+        avatarDiv.style.color = houseColors[student.house] || '#6c757d';
+        document.getElementById('profileHeader').style.background = `linear-gradient(135deg, ${houseBgColors[student.house] || '#1e90ff'}20, ${houseBgColors[student.house] || '#1e90ff'}40)`;
+        
+        const classColors = { 'Form 1': '#28a745', 'Form 2': '#ffc107', 'Form 3': '#dc3545' };
+        document.getElementById('classDisplay').style.background = classColors[student.class] || '#1e90ff';
+        document.getElementById('classDisplay').style.color = student.class === 'Form 1' ? 'white' : 'black';
+        
+        const houseDisplay = document.getElementById('houseDisplay');
+        if (student.house === 'Acacia') {
+            houseDisplay.style.background = '#f0f0f0';
+            houseDisplay.style.color = '#333';
+            houseDisplay.style.border = '1px solid #ddd';
+        } else if (student.house === 'Baobab') {
+            houseDisplay.style.background = '#dc3545';
+            houseDisplay.style.color = 'white';
+        } else if (student.house === 'Palm') {
+            houseDisplay.style.background = '#ffc107';
+            houseDisplay.style.color = '#333';
+        }
+    }
+    
+    function editStudent() {
+        if (!currentStudent) return;
+        
+        document.getElementById('e-name').value = currentStudent.student_name;
+        document.getElementById('e-class').value = currentStudent.class;
+        document.getElementById('e-gender').value = currentStudent.gender;
+        document.getElementById('e-house').value = currentStudent.house;
+        document.getElementById('e-primary').value = currentStudent.primary_contact;
+        document.getElementById('e-secondary').value = currentStudent.secondary_contact || '';
+        
+        editModal.show();
+    }
+    
+    async function updateStudent() {
+        const updatedStudent = {
+            studentName: document.getElementById('e-name').value,
+            class: document.getElementById('e-class').value,
+            gender: document.getElementById('e-gender').value,
+            house: document.getElementById('e-house').value,
+            primaryContact: document.getElementById('e-primary').value,
+            secondaryContact: document.getElementById('e-secondary').value
+        };
+        
+        try {
+            const response = await fetch(`/api/students/${currentStudent.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedStudent)
+            });
+            const result = await response.json();
+            
+            if (result.success) {
+                alert('Student updated successfully!');
+                editModal.hide();
+                await searchStudent();
+            } else {
+                alert('Error: ' + result.message);
+            }
+        } catch (error) {
+            alert('Error updating student');
+        }
+    }
+    
+    async function deleteStudent() {
+        if (confirm(`Are you sure you want to delete ${currentStudent.student_name}? This action cannot be undone.`)) {
+            try {
+                const response = await fetch(`/api/students/${currentStudent.id}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Student deleted successfully!');
+                    window.location.href = '/student-list';
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Error deleting student');
+            }
+        }
+    }
+    
+    function printStudentInfo() {
+        window.print();
+    }
+</script>
+</body>
+</html>

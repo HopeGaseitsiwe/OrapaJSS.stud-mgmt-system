@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Student Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 p-0 sidebar">
+            <div class="p-4">
+                <h3 class="mb-4"><i class="bi bi-mortarboard"></i> Academe</h3>
+                <p class="small text-secondary">Student Registry System</p>
+            </div>
+            <nav class="nav flex-column">
+                <a class="nav-link active" href="/">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a class="nav-link" href="/student-list">
+                    <i class="bi bi-people"></i> Student List
+                </a>
+                <a class="nav-link" href="/student-info">
+                    <i class="bi bi-person-badge"></i> Student Info
+                </a>
+            </nav>
+            <div class="position-absolute bottom-0 p-4">
+                <small class="text-secondary">v3.0 | Forms 1-3</small>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-md-10 main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-speedometer2"></i> Dashboard</h2>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-light text-dark p-2 border">
+                        <i class="bi bi-person-circle"></i> Secretary
+                    </span>
+                    <button class="btn btn-primary" onclick="window.location.href='/student-list'">
+                        <i class="bi bi-plus-lg"></i> Manage Students
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Total Students</h6>
+                                <h2 class="mb-0" id="total-count">0</h2>
+                            </div>
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Form 1</h6>
+                                <h2 class="mb-0" id="form1-count">0</h2>
+                            </div>
+                            <i class="bi bi-1-circle-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Form 2</h6>
+                                <h2 class="mb-0" id="form2-count">0</h2>
+                            </div>
+                            <i class="bi bi-2-circle-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted">Form 3</h6>
+                                <h2 class="mb-0" id="form3-count">0</h2>
+                            </div>
+                            <i class="bi bi-3-circle-fill"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gender & House Statistics -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <h6 class="text-muted mb-3"><i class="bi bi-gender-ambiguous"></i> Gender Distribution</h6>
+                        <div class="d-flex justify-content-around">
+                            <div class="text-center">
+                                <i class="bi bi-gender-male text-primary" style="font-size: 2rem;"></i>
+                                <h3 id="male-count" class="mb-0">0</h3>
+                                <small class="text-muted">Male</small>
+                            </div>
+                            <div class="text-center">
+                                <i class="bi bi-gender-female text-danger" style="font-size: 2rem;"></i>
+                                <h3 id="female-count" class="mb-0">0</h3>
+                                <small class="text-muted">Female</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <h6 class="text-muted mb-3"><i class="bi bi-building"></i> House Distribution</h6>
+                        <div class="d-flex justify-content-around">
+                            <div class="text-center">
+                                <div class="house-dot acacia"></div>
+                                <h3 id="acacia-count" class="mb-0">0</h3>
+                                <small class="text-muted">Acacia</small>
+                            </div>
+                            <div class="text-center">
+                                <div class="house-dot baobab"></div>
+                                <h3 id="baobab-count" class="mb-0">0</h3>
+                                <small class="text-muted">Baobab</small>
+                            </div>
+                            <div class="text-center">
+                                <div class="house-dot palm"></div>
+                                <h3 id="palm-count" class="mb-0">0</h3>
+                                <small class="text-muted">Palm</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Students Table -->
+            <div class="table-card">
+                <div class="card-header">
+                    <span><i class="bi bi-clock-history"></i> Recently Added Students</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr><th>ID</th><th>Student Name</th><th>Class</th><th>Gender</th><th>House</th><th>Contact</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="recent-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    async function loadDashboard() {
+        try {
+            const response = await fetch('/api/students');
+            const result = await response.json();
+            if (result.success) {
+                document.getElementById('total-count').textContent = result.stats.total;
+                document.getElementById('form1-count').textContent = result.stats.form1;
+                document.getElementById('form2-count').textContent = result.stats.form2;
+                document.getElementById('form3-count').textContent = result.stats.form3;
+                document.getElementById('male-count').textContent = result.stats.male;
+                document.getElementById('female-count').textContent = result.stats.female;
+                document.getElementById('acacia-count').textContent = result.stats.acacia;
+                document.getElementById('baobab-count').textContent = result.stats.baobab;
+                document.getElementById('palm-count').textContent = result.stats.palm;
+                
+                const recent = result.data.slice(-5).reverse();
+                document.getElementById('recent-tbody').innerHTML = recent.map(s => `
+                    <tr>
+                        <td><span class="badge bg-secondary">${s.id}</span></td>
+                        <td><strong>${s.student_name}</strong></td>
+                        <td><span class="class-badge">${s.class}</span></div></div></td>
+                        <td>${s.gender}</div></div></div></td>
+                        <td><span class="house-badge house-${s.house.toLowerCase()}">${s.house}</span></div></div></div></td>
+                        <td>${s.primary_contact}</div></div></div></td>
+                        <td>
+                            <a href="/student-info?id=${s.id}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                         </div>
+                     </div>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    
+    loadDashboard();
+</script>
+</body>
+</html>
